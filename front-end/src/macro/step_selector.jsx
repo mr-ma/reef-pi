@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import WaitStep from './wait_step'
+import WaitTempStep from './waittemp_step'
 import GenericStep from './generic_step'
 
 const StepSelector = ({
@@ -16,6 +17,15 @@ const StepSelector = ({
       case 'wait':
         return (
           <WaitStep
+            name={name}
+            errors={errors}
+            touched={touched}
+            readOnly={readOnly}
+          />
+        )
+        case 'waittemp':
+        return (
+          <WaitTempStep
             name={name}
             errors={errors}
             touched={touched}

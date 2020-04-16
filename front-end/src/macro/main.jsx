@@ -106,8 +106,11 @@ class main extends React.Component {
           type: step.type,
           config: {
             duration: step.duration,
+            frequency:step.frequency,
             on: step.on,
-            id: step.id
+            id: step.id,
+            rangetemp1:step.rangetemp1,
+            rangetemp2:step.rangetemp2
           }
         }
       })

@@ -23,8 +23,11 @@ const MacroForm = withFormik({
         return {
           type: step.type,
           duration: step.config.duration,
+          frequency: step.config.frequency,
           id: step.config.id,
-          on: step.config.on
+          on: step.config.on,
+          rangetemp1:step.config.rangetemp1,
+          rangetemp2:step.config.rangetemp2
         }
       })
     }
