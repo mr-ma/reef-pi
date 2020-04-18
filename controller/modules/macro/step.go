@@ -73,6 +73,16 @@ func (s *Step) Run(c controller.Controller, reverse bool) error {
 		log.Println("macro-subsystem: executing step: sleep for", int(w.Duration), "seconds")
 		time.Sleep(w.Duration * time.Second)
 		return nil
+	// case "inletwait":
+	// 	devInlets := c.DM().Inlets()
+	// 	var inletStep GenericStep
+	// 	if err := json.Unmarshal(s.Config, &inletStep); err != nil {
+	// 		return err
+	// 	}
+	// 	for value, err := devInlets.Read(inletStep.ID); err != nil && value != 1; {
+	// 		return nil
+	// 	}
+	// 	return nil
 	case "waittemp":
 		var wt WaitTemperatureStep
 		if err := json.Unmarshal(s.Config, &wt); err != nil {
@@ -102,7 +112,7 @@ func (s *Step) Run(c controller.Controller, reverse bool) error {
 				log.Println("macro-subsystem: executing step: temperature has reached:", currentRead)
 				isInRange = true
 			} else {
-				log.Println("macro-subsystem: executing step: sleeping for ", wt.Frequency)
+				log.Println("macro-subsystem: executing step: sleeping for ", wt.Frequency*time.Second)
 				time.Sleep(wt.Frequency * time.Second)
 			}
 		}

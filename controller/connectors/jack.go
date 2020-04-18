@@ -3,6 +3,7 @@ package connectors
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 
 	"net/http"
 
@@ -133,6 +134,7 @@ func (c *Jacks) LoadAPI(r *mux.Router) {
 type PinValues map[int]float64
 
 func (jacks *Jacks) Control(id string, values PinValues) error {
+	log.Println("In Control function id, values", id, values)
 	j, err := jacks.Get(id)
 	if err != nil {
 		return err

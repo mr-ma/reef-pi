@@ -79,7 +79,8 @@ deb: ui
 	cp bin/reef-pi dist/usr/bin/reef-pi
 	cp -r ui/* dist/var/lib/reef-pi/ui
 	cp build/reef-pi.yml dist/etc/reef-pi/config.yml
-	mkdir dist/var/lib/reef-pi/images
+	mkdir -p dist/var/lib/reef-pi/images
+	rm -rf reef-pi-$(VERSION).deb || true
 	bundle exec fpm -t deb -s dir -a armhf -n reef-pi -v $(VERSION) -m ranjib@linux.com --deb-systemd build/reef-pi.service -C dist  -p reef-pi-$(VERSION).deb .
 
 .PHONY: clean

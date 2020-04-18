@@ -2,6 +2,8 @@ package doser
 
 import (
 	"log"
+	"os/exec"
+	"strconv"
 	"time"
 
 	"github.com/reef-pi/reef-pi/controller/connectors"
@@ -15,18 +17,32 @@ type Runner struct {
 }
 
 func (r *Runner) Dose(speed float64, duration float64) error {
+	log.Println("In the DOSE function (speed, duration)", speed, duration)
 	v := make(map[int]float64)
 	v[r.pump.Pin] = speed
 	if err := r.jacks.Control(r.pump.Jack, v); err != nil {
 		return err
 	}
-	select {
-	case <-time.After(time.Duration(duration * float64(time.Second))):
-		v[r.pump.Pin] = 0
-		if err := r.jacks.Control(r.pump.Jack, v); err != nil {
-			return err
-		}
+	frequency := 100
+	//motor: 2  direction: 1  frequency: 100.0  cycle: 50.0  duration: 10
+	command := exec.Command("python", "step.py", "2", "1", strconv.Itoa(frequency),
+		strconv.FormatFloat(speed, 'E', 0, 64),
+		strconv.FormatFloat(duration, 'E', 0, 64))
+	command.Path = "/home/pi"
+	err := command.Run()
+	if err != nil {
+		log.Println("Failed to execute python")
+		log.Println(err.Error())
+		return err
 	}
+	log.Println("Executed python")
+	// select {
+	// case <-time.After(time.Duration(duration * float64(time.Second))):
+	// 	v[r.pump.Pin] = 0
+	// 	if err := r.jacks.Control(r.pump.Jack, v); err != nil {
+	// 		return err
+	// 	}
+	// }
 	return nil
 }
 
