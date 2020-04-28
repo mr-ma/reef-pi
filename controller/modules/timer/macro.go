@@ -16,7 +16,7 @@ type MacroRunner struct {
 }
 
 func (m *MacroRunner) Run() {
-	if err := m.c.On(m.target, true); err != nil {
+	if err := m.c.On(m.target, false); err != nil {
 		log.Println("ERROR: timer sub-system, Failed to trigger macro. Error:", err)
 	}
 }

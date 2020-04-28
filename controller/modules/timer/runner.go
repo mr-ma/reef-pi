@@ -3,11 +3,12 @@ package timer
 import (
 	"encoding/json"
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/reef-pi/reef-pi/controller"
 	"github.com/reef-pi/reef-pi/controller/storage"
 	cron "github.com/robfig/cron/v3"
-	"log"
-	"time"
 )
 
 type UpdateEquipment struct {
@@ -61,6 +62,7 @@ func (c *Controller) Runner(j Job) (cron.Job, error) {
 		if err := json.Unmarshal(j.Target, &macro); err != nil {
 			return nil, err
 		}
+		log.Println("Timer runner: MacroBucket: ", macro.ID)
 		return &MacroRunner{
 			c:      c.macro,
 			target: macro.ID,
