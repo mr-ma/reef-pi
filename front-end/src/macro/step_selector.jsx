@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import WaitStep from './wait_step'
+import DoserStep from './doser_step'
 import WaitTempStep from './waittemp_step'
 import GenericStep from './generic_step'
 
@@ -32,6 +33,15 @@ const StepSelector = ({
             readOnly={readOnly}
           />
         )
+        case 'directdoser':
+          return (
+            <DoserStep
+              name={name}
+              errors={errors}
+              touched={touched}
+              readOnly={readOnly}
+            />
+          )
       default:
         return (
           <GenericStep

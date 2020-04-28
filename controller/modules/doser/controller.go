@@ -78,6 +78,45 @@ func (c *Controller) Start() {
 	return
 }
 
+func (c *Controller) DirectStart(ID string, Duration float64, Speed float64) {
+	pumps, err := c.List()
+	if err != nil {
+		log.Println("ERROR: Doser subsystem: Failed to list pumps. Error: ", err)
+		return
+	}
+	for _, p := range pumps {
+		if p.ID != ID {
+			continue
+		}
+		if err != nil {
+			log.Println("ERROR: dosing controller. Failed to add cronspec. ", err.Error())
+		}
+		fn := func(d json.RawMessage) interface{} {
+			u := Usage{}
+			json.Unmarshal(d, &u)
+			return u
+		}
+		if err := c.statsMgr.Load(p.ID, fn); err != nil {
+			log.Println("ERROR: dosing controller. Failed to load usage. Error:", err)
+		}
+		pumprunner, ok := p.Runner(c.jacks, c.statsMgr).(*Runner)
+		if !ok {
+			log.Fatalln("Failed to convert to doser runner")
+		}
+		pumprunner.RunDirect(Duration, Speed)
+	}
+}
+func (c *Controller) addToCronSpec(p Pump, cronSpec string) (cronID cron.EntryID, err error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	cronID, err = c.runner.AddJob(cronSpec, p.Runner(c.jacks, c.statsMgr))
+	if err != nil {
+		return -1, err
+	}
+	log.Println("Successfully added cron entry. ID:", cronID)
+	return cronID, nil
+}
+
 func (c *Controller) addToCron(p Pump) error {
 	c.mu.Lock()
 	defer c.mu.Unlock()

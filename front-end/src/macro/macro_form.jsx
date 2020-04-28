@@ -24,6 +24,7 @@ const MacroForm = withFormik({
           type: step.type,
           duration: step.config.duration,
           frequency: step.config.frequency,
+          speed: step.config.speed,
           id: step.config.id,
           on: step.config.on,
           rangetemp1:step.config.rangetemp1,

@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/reef-pi/reef-pi/controller"
+	"github.com/reef-pi/reef-pi/controller/modules/doser"
 	"github.com/reef-pi/reef-pi/controller/modules/temperature"
 	"github.com/reef-pi/reef-pi/controller/storage"
 )
@@ -26,7 +27,11 @@ type WaitTemperatureStep struct {
 	RangeTemp1 float64       `json:"rangetemp1"`
 	RangeTemp2 float64       `json:"rangetemp2"`
 }
-
+type DoserStep struct {
+	ID       string  `json:"id"`
+	Duration float64 `json:"duration"`
+	Speed    float64 `json:"speed"`
+}
 type Step struct {
 	Type   string          `json:"type"`
 	Config json.RawMessage `json:"config"`
@@ -37,6 +42,20 @@ type TemperatureRead struct {
 
 func (s *Step) Run(c controller.Controller, reverse bool) error {
 	switch s.Type {
+	case "directdoser":
+		var dt DoserStep
+		if err := json.Unmarshal(s.Config, &dt); err != nil {
+			return err
+		}
+		log.Println("macro-subsystem: executing step: DirectDoserStep; Duration:", int(dt.Duration), "second(s) ", dt.Speed, " speed")
+		dosersubsystem, _ := c.Subsystem(storage.DoserBucket)
+		dc, ok := dosersubsystem.(*doser.Controller)
+		if !ok {
+			return errors.New("Failed to cast doser subsystem to doser controller")
+		}
+		dc.DirectStart(dt.ID, dt.Duration, dt.Speed)
+
+		return nil
 	case storage.EquipmentBucket, storage.ATOBucket, storage.TemperatureBucket,
 		storage.DoserBucket, storage.PhBucket, storage.TimerBucket, storage.MacroBucket, "subsystem":
 		var g GenericStep

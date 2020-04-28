@@ -15,6 +15,22 @@ const WaitSchema = Yup.object().shape({
     .min(1, 'Duration must be 1 second or greater')
 })
 
+const DoserSchema = Yup.object().shape({
+  type: Yup.string()
+    .required('Step Type is required'),
+  duration: Yup.number()
+    .required('Duration is required')
+    .integer()
+    .typeError('Duration is required')
+    .min(1, 'Duration must be 1 second or greater'),
+    speed: Yup.number()
+    .required('Speed is required')
+    .integer()
+    .typeError('Speed is required')
+    .min(1, 'Speed must between 1 and 100')
+    .max(100,'Speed must between 1 and 100')
+})
+
 const WaitTempSchema = Yup.object().shape({
   type: Yup.string()
     .required('Step Type is required'),
@@ -52,7 +68,9 @@ const StepSchema = Yup.lazy(value => {
     return WaitSchema
   } else if (value.type === 'waittemp') {
     return WaitTempSchema
-  }else {
+  } else if (value.type === 'directdoser') {
+    return DoserSchema
+  } else {
     return GenericSchema
   }
 })

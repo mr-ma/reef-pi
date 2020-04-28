@@ -105,6 +105,7 @@ class main extends React.Component {
         return {
           type: step.type,
           config: {
+            speed:step.speed,
             duration: step.duration,
             frequency:step.frequency,
             on: step.on,
