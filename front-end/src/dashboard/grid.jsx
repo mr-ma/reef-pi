@@ -2,7 +2,7 @@ import React from 'react'
 import ComponentSelector from './component_selector'
 import { buildTypeMap, buildCells } from './types'
 
-// props: rows, columns, hook, cells, tcs, atos
+// props: rows, columns, hook, cells, tcs, fcs, atos
 export default class Grid extends React.Component {
   constructor (props) {
     super(props)

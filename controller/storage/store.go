@@ -21,6 +21,8 @@ const (
 	PhReadingsBucket       = "ph_readings"
 	TemperatureBucket      = "temperature"
 	TemperatureUsageBucket = "temperature_usage"
+	FlowBucket             = "flow"
+	FlowUsageBucket        = "flow_usage"
 	TimerBucket            = "timers"
 	ErrorBucket            = "errors"
 	DriverBucket           = "drivers"

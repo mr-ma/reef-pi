@@ -10,6 +10,7 @@ import { fetchInlets } from './inlets'
 import { fetchJacks } from './jacks'
 import { fetchAnalogInputs } from './analog_inputs'
 import { fetchTCs } from './tcs'
+import { fetchFCs } from './fcs'
 import { fetchLights } from './lights'
 import { fetchPhProbes } from './phprobes'
 import { fetchEquipment } from './equipment'
@@ -40,6 +41,9 @@ export const fetchControllerData = (dispatch, capabilities) => {
         break
       case 'temperature':
         dispatch(fetchTCs())
+        break
+      case 'flow':
+        dispatch(fetchFCs())
         break
       case 'lighting':
         dispatch(fetchLights())

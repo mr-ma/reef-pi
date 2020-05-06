@@ -2,18 +2,20 @@ package daemon
 
 import (
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/reef-pi/reef-pi/controller/modules/ato"
 	"github.com/reef-pi/reef-pi/controller/modules/camera"
 	"github.com/reef-pi/reef-pi/controller/modules/doser"
 	"github.com/reef-pi/reef-pi/controller/modules/equipment"
+	"github.com/reef-pi/reef-pi/controller/modules/flow"
 	"github.com/reef-pi/reef-pi/controller/modules/lighting"
 	"github.com/reef-pi/reef-pi/controller/modules/macro"
 	"github.com/reef-pi/reef-pi/controller/modules/ph"
 	"github.com/reef-pi/reef-pi/controller/modules/system"
 	"github.com/reef-pi/reef-pi/controller/modules/temperature"
 	"github.com/reef-pi/reef-pi/controller/modules/timer"
-	"log"
-	"time"
 )
 
 func (r *ReefPi) loadPhSubsystem() error {
@@ -43,6 +45,20 @@ func (r *ReefPi) loadTimerSubsystem() error {
 	}
 	t := timer.New(r)
 	r.subsystems[timer.Bucket] = t
+	return nil
+}
+
+func (r *ReefPi) loadFlowSubsystem() error {
+	if !r.settings.Capabilities.Flow {
+		return nil
+	}
+	fl, err := flow.New(r.settings.Capabilities.DevMode, r)
+	if err != nil {
+		r.settings.Capabilities.Flow = false
+		log.Println("ERROR: Failed to initialize flow subsystem")
+		return err
+	}
+	r.subsystems[flow.Bucket] = fl
 	return nil
 }
 
@@ -155,6 +171,10 @@ func (r *ReefPi) loadSubsystems() error {
 	if err := r.loadLightingSubsystem(); err != nil {
 		log.Println("ERROR: Failed to load lighting subsystem. Error:", err)
 		r.LogError("subsystem-lighting", "Failed to load lighting subsystem. Error:"+err.Error())
+	}
+	if err := r.loadFlowSubsystem(); err != nil {
+		log.Println("ERROR: Failed to load flow subsystem. Error:", err)
+		r.LogError("subsystem-flow", "Failed to load flow subsystem. Error:"+err.Error())
 	}
 	if err := r.loadDoserSubsystem(); err != nil {
 		log.Println("ERROR: Failed to load doser subsystem. Error:", err)

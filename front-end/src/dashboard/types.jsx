@@ -66,6 +66,16 @@ export const buildTypeMap = (props) => {
       label: i18next.t('temperature:chart:historical'),
       options: props.tcs || []
     },
+    flow_current: {
+      name: 'flow_current',
+      label: 'flow current',
+      options: props.fcs || []
+    },
+    temp_historical: {
+      name: 'flow_historical',
+      label: 'flow historical',
+      options: props.fcs || []
+    },
     doser: {
       name: 'doser',
       label: i18next.t('doser'),

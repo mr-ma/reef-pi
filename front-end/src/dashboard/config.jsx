@@ -128,6 +128,7 @@ class config extends React.Component {
             columns={this.state.config.column}
             hook={this.updateHook}
             tcs={this.props.tcs}
+            fcs={this.props.fcs}
             atos={this.props.atos}
             phs={this.props.phs}
             lights={this.props.lights}
@@ -149,6 +150,7 @@ const mapStateToProps = state => {
     atos: state.atos,
     phs: state.phprobes,
     tcs: state.tcs,
+    fcs:state.fcs,
     lights: state.lights,
     dosers: state.dosers,
     config: state.dashboard

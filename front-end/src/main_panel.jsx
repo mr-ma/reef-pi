@@ -2,6 +2,7 @@ import React from 'react'
 import Ato from 'ato/main'
 import Camera from 'camera/main'
 import Equipment from 'equipment/main'
+import Flow from 'flow/main'
 import Log from 'logCenter/main'
 import NotificationAlert from 'notifications/alert'
 import Lighting from 'lighting/main'
@@ -27,6 +28,7 @@ const caps = {
   timers: { label: i18n.t('capabilities:timers'), component: <Timers /> },
   lighting: { label: i18n.t('capabilities:lights'), component: <Lighting /> },
   temperature: { label: i18n.t('capabilities:temperature'), component: <Temperature /> },
+  flow: {label: 'Flow', component: <Flow/>},
   ato: { label: i18n.t('capabilities:ato'), component: <Ato /> },
   ph: { label: i18n.t('capabilities:ph'), component: <Ph /> },
   doser: { label: i18n.t('capabilities:dosing_pumps'), component: <Doser /> },

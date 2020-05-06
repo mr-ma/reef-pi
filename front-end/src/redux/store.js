@@ -14,6 +14,7 @@ const initialState = {
   lights: [],
   atos: [],
   tcs: [],
+  fcs:[],
   phprobes: [],
   macros: [],
   dosers: [],
@@ -31,10 +32,12 @@ const initialState = {
   doser_usage: {},
   macro_usage: {},
   tc_usage: {},
+  fc_usage:{},
   ph_readings: {},
   ph_reading: [],
   tc_sensors: [],
   tc_reading: [],
+  fc_reading:[],
   telemetry: {
   },
   camera: {

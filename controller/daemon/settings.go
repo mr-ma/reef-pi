@@ -50,6 +50,7 @@ func (r *ReefPi) GetSettings(w http.ResponseWriter, req *http.Request) {
 func (r *ReefPi) UpdateSettings(w http.ResponseWriter, req *http.Request) {
 	var s settings.Settings
 	fn := func(_ string) error {
+		log.Println("Cap is set to:", s.Capabilities)
 		return r.store.Update(Bucket, "settings", s)
 	}
 	utils.JSONUpdateResponse(&s, fn, w, req)

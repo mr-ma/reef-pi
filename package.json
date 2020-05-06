@@ -71,7 +71,8 @@
     "webpack-cli": "3.3.10",
     "webpack-dev-server": "3.10.2",
     "webpack-livereload-plugin": "2.2.0",
-    "yup": "0.28.0"
+    "yup": "0.28.0",
+    "npm-watch": "^0.6.0"
   },
   "scripts": {
     "translations:sync": "node ./build/translations/csv-sync.js sync",
@@ -85,7 +86,8 @@
     "jest-update-snapshot": "cross-env NODE_ENV=testing jest --coverage --all --updateSnapshot",
     "test": "cross-env NODE_ENV=testing jest --all --updateSnapshot --no-cache --coverage",
     "sass-lint": "sass-lint 'front-end/assets/sass/**/*.scss' --verbose",
-    "smoke": "testcafe chrome front-end/test/* --skip-js-errors"
+    "smoke": "testcafe chrome front-end/test/* --skip-js-errors",
+    "watch": "npm-watch"
   },
   "repository": {
     "type": "git",
@@ -122,6 +124,17 @@
     "moduleNameMapper": {
       "\\.(css|less|sass|scss)$": "<rootDir>/front-end/test/jest_config.js",
       "\\.csv$": "<rootDir>/build/translations/loader.js"
+    }
+  },
+  "dependencies": {
+    "npm-watch": "^0.6.0"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "front-end/src/"
+      ],
+      "extensions": "js,jsx"
     }
   }
 }
