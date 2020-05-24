@@ -2,14 +2,16 @@ package macro
 
 import (
 	"errors"
-	"github.com/gorilla/mux"
 	"net/http"
+
+	"github.com/gorilla/mux"
 
 	"github.com/reef-pi/reef-pi/controller/utils"
 )
 
 func (t *Subsystem) LoadAPI(r *mux.Router) {
 	r.HandleFunc("/api/macros", t.list).Methods("GET")
+	r.HandleFunc("/api/macros/scheduled", t.scheduledlist).Methods("GET")
 	r.HandleFunc("/api/macros", t.create).Methods("PUT")
 	r.HandleFunc("/api/macros/{id}", t.get).Methods("GET")
 	r.HandleFunc("/api/macros/{id}", t.update).Methods("POST")
@@ -28,6 +30,12 @@ func (t *Subsystem) get(w http.ResponseWriter, r *http.Request) {
 func (c Subsystem) list(w http.ResponseWriter, r *http.Request) {
 	fn := func() (interface{}, error) {
 		return c.List()
+	}
+	utils.JSONListResponse(fn, w, r)
+}
+func (c *Subsystem) scheduledlist(w http.ResponseWriter, r *http.Request) {
+	fn := func() (interface{}, error) {
+		return c.scheduledmacros, nil
 	}
 	utils.JSONListResponse(fn, w, r)
 }
@@ -61,7 +69,7 @@ func (c *Subsystem) run(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return err
 		}
-		go c.Run(m, false)
+		go c.Run(&m, false)
 		return nil
 	}
 	utils.JSONDeleteResponse(fn, w, r)
@@ -76,7 +84,7 @@ func (c *Subsystem) revert(w http.ResponseWriter, r *http.Request) {
 		if !m.Reversible {
 			return errors.New("macro is not reversible")
 		}
-		go c.Run(m, true)
+		go c.Run(&m, true)
 		return nil
 	}
 	utils.JSONDeleteResponse(fn, w, r)

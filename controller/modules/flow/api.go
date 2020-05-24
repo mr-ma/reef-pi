@@ -37,11 +37,10 @@ func (f *Controller) read(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return nil, err
 		}
-		v := make(map[string]uint64)
-		v["pulse_count"] = fc.PulseCount
-		return v, nil
+		return f.Read(*fc)
 	}
 	utils.JSONGetResponse(fn, w, r)
+
 }
 
 func (f *Controller) get(w http.ResponseWriter, r *http.Request) {

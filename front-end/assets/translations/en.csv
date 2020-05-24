@@ -77,6 +77,7 @@ capabilities:lights,Lights
 capabilities:log,Log
 capabilities:macro,Macro
 capabilities:macros,Macros
+capabilities:tasks,Tasks
 capabilities:manager,Instances
 capabilities:ph,pH
 capabilities:temperature,Temperature
@@ -112,6 +113,7 @@ configuration:settings:network_address_required,Network address is required
 configuration:settings:network_interface_required,Network Interface is required
 configuration:settings:notification,Notification
 configuration:settings:rpi_pwm_freq,Rpi Pwm Frequency
+configuration:settings:cap_scheduled_macro_tasks,Cap Scheduled Macro Tasks
 configuration:settings:use_https,Use HTTPS
 configuration:tab:about,About
 configuration:tab:admin,Admin
@@ -256,3 +258,8 @@ timers:validation_error,The Timer settings cannot be saved due to validation err
 flow:validation_error,The flow settings cannot be saved due to validation errors.  Please correct the errors and try again.
 flow:pin,Input Flow Pin
 flow:sensor_status,Flow Sensor Status
+flow:calibrate,Pulses
+flow:current_reading,Current Pulse Count
+flow:flow,Flow Meter
+flow:chart:historical,Flow Historical
+flow:chart:current,Flow Current

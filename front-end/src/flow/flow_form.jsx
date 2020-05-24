@@ -21,7 +21,7 @@ const FlowForm = withFormik({
       unit: fc.unit || '',
       pulse_count: fc.pulse_count || 0,
       period: fc.period || '60',
-      // flow_count: fc.flow_count || 0,
+      flow_count: fc.flow_count || 0,
       // max_count: fc.max_count || 0,
       enable: (fc.enable === undefined ? true : fc.enable),
       alerts: (fc.notify && fc.notify.enable) || false,

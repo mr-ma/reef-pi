@@ -52,6 +52,8 @@ export const rootReducer = (state, action) => {
       return { ...state, doser_usage: doserUsage }
     case 'MACROS_LOADED':
       return { ...state, macros: action.payload }
+      case 'MACROS_SCHEDULED_LOADED':
+        return {...state, macros_scheduled: action.payload }
     case 'MACRO_USAGE_LOADED':
       macroUsage[action.payload.id] = action.payload.data
       return { ...state, macro_usage: macroUsage }

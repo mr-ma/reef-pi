@@ -12,6 +12,7 @@ import Timers from 'timers/main'
 import Doser from 'doser/main'
 import Ph from 'ph/main'
 import Macro from 'macro/main'
+import Task from 'task/main'
 import Dashboard from 'dashboard/main'
 import { fetchUIData } from 'redux/actions/ui'
 import { fetchInfo } from 'redux/actions/info'
@@ -33,6 +34,7 @@ const caps = {
   ph: { label: i18n.t('capabilities:ph'), component: <Ph /> },
   doser: { label: i18n.t('capabilities:dosing_pumps'), component: <Doser /> },
   macro: { label: i18n.t('capabilities:macros'), component: <Macro /> },
+  task: {label:i18n.t('capabilities:tasks'), component:<Task/>},
   camera: { label: i18n.t('capabilities:camera'), component: <Camera /> },
   manager: { label: i18n.t('capabilities:manager'), component: <Instances /> },
   configuration: { label: i18n.t('capabilities:configuration'), component: <Configuration /> },
@@ -61,9 +63,14 @@ class mainPanel extends React.Component {
 
   navs (tab) {
     const MandatoryTabs = {
-      log: true
+      log: true,
     }
     const currentCaps = Object.assign(this.props.capabilities, MandatoryTabs)
+    if (currentCaps['macro']) {
+      currentCaps['task']=true
+    } else {
+      currentCaps['task']=false
+    }
     const panels = []
     for (const prop in caps) {
       if (currentCaps[prop] === undefined) {

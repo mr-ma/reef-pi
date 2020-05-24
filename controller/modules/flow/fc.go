@@ -89,6 +89,7 @@ func (c *Controller) Create(fc FC) error {
 	if fc.Enable {
 		pulse := make(chan interface{})
 		quit := make(chan struct{})
+		fc.FlowCount = 0
 		c.pulses[fc.ID] = pulse
 		c.quitters[fc.ID] = quit
 		c.preparePin(fc.ID, &fc)

@@ -17,8 +17,7 @@ import { fetchEquipment } from './equipment'
 import { fetchTimers } from './timer'
 import { capabilitiesLoaded } from './capabilities'
 import { fetchInstances } from './instances'
-import { fetchMacros } from './macro'
-
+import { fetchMacros, fetchScheduledMacros } from './macro'
 export const fetchControllerData = (dispatch, capabilities) => {
   dispatch(fetchDrivers())
   dispatch(fetchInlets())
@@ -27,7 +26,7 @@ export const fetchControllerData = (dispatch, capabilities) => {
   dispatch(fetchJacks())
   dispatch(fetchOutlets())
   dispatch(fetchAnalogInputs())
-
+  dispatch(fetchScheduledMacros())
   $.each(capabilities, (i, v) => {
     if (!v) {
       return

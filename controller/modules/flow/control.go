@@ -12,7 +12,8 @@ import (
 func (c *Controller) Check(fc *FC) {
 	currentPulseCount := fc.PulseCount
 	lastPulseCount, ok := c.lastpulses[fc.ID]
-	if ok && currentPulseCount == lastPulseCount {
+	if ok && fc.FlowCount != 0 &&
+		currentPulseCount == lastPulseCount {
 		// log.Println("sensor flow same pulse value, skipping check calculations")
 		return
 	}

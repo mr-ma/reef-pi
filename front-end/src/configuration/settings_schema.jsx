@@ -16,7 +16,8 @@ const SettingsSchema = Yup.object().shape({
   https: Yup.bool(),
   pprof: Yup.bool(),
   prometheus: Yup.bool(),
-  rpi_pwm_freq: Yup.number().positive().integer()
+  rpi_pwm_freq: Yup.number().positive().integer(),
+  cap_scheduled_macro_tasks:Yup.number().positive().integer()
 })
 
 export default SettingsSchema

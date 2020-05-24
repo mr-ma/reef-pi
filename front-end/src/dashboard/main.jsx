@@ -1,5 +1,6 @@
 import React from 'react'
 import TempReadingsChart from 'temperature/readings_chart'
+import FlowReadingChart from 'flow/readings_chart'
 import TempControlChart from 'temperature/control_chart'
 import EquipmentChart from 'equipment/chart'
 import LightChart from 'lighting/chart'
@@ -129,6 +130,15 @@ class dashboard extends React.Component {
               <div className='col' key={'chart-' + i + '-' + j}>
                 <ErrorBoundary>
                   <TempControlChart width={config.width} height={config.height} sensor_id={ch.id} />
+                </ErrorBoundary>
+              </div>
+            )
+            break
+            case 'flow_current':
+            columns.push(
+              <div className='col' key={'chart-' + i + '-' + j}>
+                <ErrorBoundary>
+                  <FlowReadingChart width={config.width} height={config.height} sensor_id={ch.id} />
                 </ErrorBoundary>
               </div>
             )

@@ -68,12 +68,7 @@ export const buildTypeMap = (props) => {
     },
     flow_current: {
       name: 'flow_current',
-      label: 'flow current',
-      options: props.fcs || []
-    },
-    temp_historical: {
-      name: 'flow_historical',
-      label: 'flow historical',
+      label: i18next.t('flow:chart:current'),
       options: props.fcs || []
     },
     doser: {

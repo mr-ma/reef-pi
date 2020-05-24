@@ -32,10 +32,28 @@ type DoserStep struct {
 	Duration float64 `json:"duration"`
 	Speed    float64 `json:"speed"`
 }
+type StepStatus int
+
+const (
+	Scheduled StepStatus = iota
+	Started
+	Finished
+)
+
 type Step struct {
 	Type   string          `json:"type"`
 	Config json.RawMessage `json:"config"`
+	Status StepStatus      `json:"status"`
+	Start  time.Time       `json:"start"`
+	End    time.Time       `json:"end"`
 }
+
+func NewStep() *Step {
+	p := new(Step)
+	p.Status = Scheduled
+	return p
+}
+
 type TemperatureRead struct {
 	Temperature float64 `json:"temperature"`
 }

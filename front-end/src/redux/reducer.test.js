@@ -41,6 +41,8 @@ describe('Redux Reducer', () => {
     expect(result).toEqual({ ...getState(), ato_usage: [undefined, 'foobar:data'] })
     result = rootReducer(getState(), { type: 'MACROS_LOADED', payload: getPayload() })
     expect(result).toEqual({ ...getState(), macros: getPayload() })
+    result = rootReducer(getState(), { type: 'MACROS_SCHEDULED_LOADED', payload: getPayload() })
+    expect(result).toEqual({ ...getState(), macros_scheduled: getPayload() })
     result = rootReducer(getState(), { type: 'MACRO_USAGE_LOADED', payload: getPayload() })
     expect(result).toEqual({ ...getState(), macro_usage: { 1: 'foobar:data' } })
     result = rootReducer(getState(), { type: 'TCS_LOADED', payload: getPayload() })

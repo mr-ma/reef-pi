@@ -23,11 +23,24 @@ export const macrosLoaded = (s) => {
     payload: s
   })
 }
+export const macrosScheduledLoaded = (s) => {
+  return ({
+    type: 'MACROS_SCHEDULED_LOADED',
+    payload: s
+  })
+}
 
 export const fetchMacros = () => {
   return (reduxGet({
     url: '/api/macros',
     success: macrosLoaded
+  }))
+}
+
+export const fetchScheduledMacros = () => {
+  return (reduxGet({
+    url: '/api/macros/scheduled',
+    success: macrosScheduledLoaded
   }))
 }
 

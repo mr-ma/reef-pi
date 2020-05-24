@@ -6,7 +6,6 @@ import classNames from 'classnames'
 import { Field } from 'formik'
 import BooleanSelect from '../ui_components/boolean_select'
 import ReadingsChart from './readings_chart'
-import ControlChart from './control_chart'
 import i18next from 'i18next'
 
 

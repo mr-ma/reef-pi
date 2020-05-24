@@ -18,7 +18,8 @@ class settings extends React.Component {
         name: '',
         interface: '',
         address: '',
-        rpi_pwm_freq: 100
+        rpi_pwm_freq: 100,
+        cap_scheduled_macro_tasks: 20,
       },
       currentLanguage: i18n.language,
       updated: false
@@ -226,6 +227,7 @@ class settings extends React.Component {
                 </div>
               </div>
               <div className='col-lg-6 col-sm-12'>{this.toRow('rpi_pwm_freq')}</div>
+              <div className='col-lg-6 col-sm-12'>{this.toRow('cap_scheduled_macro_tasks')}</div>
             </div>
             <div className='row'>
               <div className='col-lg-6 col-sm-12'>

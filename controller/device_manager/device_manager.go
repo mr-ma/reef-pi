@@ -1,13 +1,14 @@
 package device_manager
 
 import (
+	"log"
+
 	"github.com/gorilla/mux"
 	"github.com/reef-pi/reef-pi/controller/connectors"
 	"github.com/reef-pi/reef-pi/controller/drivers"
 	"github.com/reef-pi/reef-pi/controller/settings"
 	"github.com/reef-pi/reef-pi/controller/storage"
 	"github.com/reef-pi/rpi/i2c"
-	"log"
 )
 
 /*
@@ -75,7 +76,6 @@ func New(s settings.Settings, store storage.Store) *DeviceManager {
 		ais:     connectors.NewAnalogInputs(drvrs, store),
 	}
 }
-
 func (dm *DeviceManager) Setup() error {
 	if err := dm.jacks.Setup(); err != nil {
 		return err

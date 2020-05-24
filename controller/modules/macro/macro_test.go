@@ -30,7 +30,7 @@ func TestMacro(t *testing.T) {
 	s.Start()
 	tr := utils.NewTestRouter()
 	s.LoadAPI(tr.Router)
-	steps := []Step{
+	steps := []*Step{
 		{Type: "equipment", Config: []byte("{}")},
 	}
 	m := Macro{Name: "Foo", Steps: steps}
@@ -49,7 +49,7 @@ func TestMacro(t *testing.T) {
 		t.Error("Failed to get using api. Error:", err)
 	}
 	m.ID = "1"
-	if err := s.Run(m, false); err != nil {
+	if err := s.Run(&m, false); err != nil {
 		t.Error(err)
 	}
 	if err := tr.Do("GET", "/api/macros", strings.NewReader(`{}`), nil); err != nil {
