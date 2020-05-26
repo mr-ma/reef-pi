@@ -40,6 +40,8 @@ export const rootReducer = (state, action) => {
       return { ...state, telemetry: action.payload }
     case 'TIMERS_LOADED':
       return { ...state, timers: action.payload }
+    // case 'TIMER_SCHEDULES_LOADED':
+    //     return {...state, schedules: action.payload }
     case 'ATOS_LOADED':
       return { ...state, atos: action.payload }
     case 'ATO_LOADED':

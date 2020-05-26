@@ -6,6 +6,12 @@ export const timersLoaded = (s) => {
     payload: s
   })
 }
+// export const timerSchedulesLoaded = (s) => {
+//   return ({
+//     type: 'TIMER_SCHEDULES_LOADED',
+//     payload: s
+//   })
+// }
 
 export const timerDeleted = () => {
   return ({
@@ -20,11 +26,18 @@ export const fetchTimers = () => {
   }))
 }
 
+// export const fetchTimerSchedules = () => {
+//   return (reduxGet({
+//     url: '/api/schedules',
+//     success: timerSchedulesLoaded
+//   }))
+// }
+
 export const createTimer = (a) => {
   return (reduxPut({
     url: '/api/timers',
+    success: fetchTimers,
     data: a,
-    success: fetchTimers
   }))
 }
 
@@ -32,13 +45,13 @@ export const updateTimer = (id, a) => {
   return (reduxPost({
     url: '/api/timers/' + id,
     data: a,
-    success: fetchTimers
+    success: fetchTimers,
   }))
 }
 
 export const deleteTimer = (id) => {
   return (reduxDelete({
     url: '/api/timers/' + id,
-    success: fetchTimers
+    success: fetchTimers,
   }))
 }

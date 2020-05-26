@@ -1,11 +1,11 @@
 import React from 'react'
-import { confirm } from 'utils/confirm'
+import { confirm, showModal } from 'utils/confirm'
 import { updateTimer, fetchTimers, createTimer, deleteTimer } from 'redux/actions/timer'
 import { connect } from 'react-redux'
 import TimerForm from './timer_form'
 import Collapsible from '../ui_components/collapsible'
 import CollapsibleList from '../ui_components/collapsible_list'
-
+import SchedulesModal from './schedules_modal'
 class Main extends React.Component {
   constructor (props) {
     super(props)
@@ -16,19 +16,37 @@ class Main extends React.Component {
     this.handleRemoveTimer = this.handleRemoveTimer.bind(this)
     this.handleUpdateTimer = this.handleUpdateTimer.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleShowSchedules = this.handleShowSchedules.bind(this)
     this.handleToggleAddTimerDiv = this.handleToggleAddTimerDiv.bind(this)
   }
 
   componentDidMount () {
     this.props.fetch()
+    // this.props.fetchSchedules()
   }
 
+  handleShowSchedules(e, timer){
+    e.stopPropagation()
+    showModal(<SchedulesModal timer={timer} schedules={this.props.schedules[timer.id]}/>)
+  }
   timerList () {
     return this.props.timers
       .sort((a, b) => {
         return parseInt(a.id) < parseInt(b.id)
       })
       .map(timer => {
+        const buttons = []
+        buttons.push(
+          <button
+            type='button' name={'schedules-' + timer.id}
+            className='btn btn-sm btn-outline-info float-right'
+            disabled={!timer.enable}
+            onClick={(e) => this.handleShowSchedules(e, timer)}
+            key='run'
+          >
+            {'Schedules'}
+          </button>
+        )
         const handleToggleState = () => {
           timer.enable = !timer.enable
           this.props.update(timer.id, timer)
@@ -38,6 +56,7 @@ class Main extends React.Component {
             key={'panel-timer-' + timer.id}
             name={'panel-timer-' + timer.id}
             item={timer}
+            buttons={buttons}
             onToggleState={handleToggleState}
             enabled={timer.enable}
             title={<b className='ml-2 align-middle'>{timer.name}</b>}
@@ -136,9 +155,10 @@ class Main extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    timers: state.timers,
+    timers: state.timers.timers,
     equipment: state.equipment,
-    macros: state.macros
+    macros: state.macros,
+    schedules: state.timers.schedules
   }
 }
 
@@ -147,7 +167,8 @@ const mapDispatchToProps = dispatch => {
     fetch: () => dispatch(fetchTimers()),
     create: t => dispatch(createTimer(t)),
     delete: id => dispatch(deleteTimer(id)),
-    update: (id, t) => dispatch(updateTimer(id, t))
+    update: (id, t) => dispatch(updateTimer(id, t)),
+    fetchSchedules: () => dispatch(fetchTimerSchedules()),
   }
 }
 

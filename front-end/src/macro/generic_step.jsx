@@ -67,7 +67,7 @@ GenericStep.propTypes = {
 const mapStateToProps = state => {
   return {
     equipment: state.equipment,
-    timers: state.timers,
+    timers: state.timers.timers,
     ato: state.atos,
     temperature: state.tcs,
     phprobes: state.phprobes,

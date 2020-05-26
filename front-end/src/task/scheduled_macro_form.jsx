@@ -13,9 +13,6 @@ import TablePagination from '@material-ui/core/TablePagination';
 import { connect } from 'react-redux'
 import Moment from 'moment';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
 export default class ScheduledMacroForm extends React.Component {
   
