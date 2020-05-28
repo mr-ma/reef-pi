@@ -69,7 +69,7 @@ func (c *Subsystem) run(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			return err
 		}
-		go c.Run(&m, false)
+		go c.Run(m, false)
 		return nil
 	}
 	utils.JSONDeleteResponse(fn, w, r)
@@ -84,7 +84,7 @@ func (c *Subsystem) revert(w http.ResponseWriter, r *http.Request) {
 		if !m.Reversible {
 			return errors.New("macro is not reversible")
 		}
-		go c.Run(&m, true)
+		go c.Run(m, true)
 		return nil
 	}
 	utils.JSONDeleteResponse(fn, w, r)

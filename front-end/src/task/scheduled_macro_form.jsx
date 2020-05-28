@@ -30,7 +30,7 @@ export default class ScheduledMacroForm extends React.Component {
   }
   formatDateTime(value){
     Moment.locale('de');
-    return(<p> {Moment(value).format('YYYY.MM.DD HH:mm:ss.SSS')} </p>)
+    return(<p> {Moment(value).year()==1?null:Moment(value).format('YYYY.MM.DD HH:mm:ss.SSS')} </p>)
   }
   formatConfig(value){
     var values=[]

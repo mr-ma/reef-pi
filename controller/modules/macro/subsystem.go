@@ -16,7 +16,7 @@ type Subsystem struct {
 	sync.Mutex
 	devMode         bool
 	quitters        map[string]chan struct{}
-	scheduledmacros []*Macro
+	scheduledmacros []Macro
 	controller      controller.Controller
 }
 
@@ -24,7 +24,7 @@ func New(devMode bool, c controller.Controller) (*Subsystem, error) {
 	return &Subsystem{
 		devMode:         devMode,
 		controller:      c,
-		scheduledmacros: []*Macro{},
+		scheduledmacros: []Macro{},
 	}, nil
 }
 
@@ -42,7 +42,7 @@ func (s *Subsystem) On(id string, b bool) error {
 	if err != nil {
 		return err
 	}
-	return s.Run(&m, b)
+	return s.Run(m, b)
 }
 
 func (s *Subsystem) InUse(depType, id string) ([]string, error) {
