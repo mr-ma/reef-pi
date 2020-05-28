@@ -105,6 +105,7 @@ func (s *Subsystem) Run(m Macro, reverse bool) error {
 		for i, _ := range s.scheduledmacros[scheduledMacroIndex].Steps {
 			s.Lock()
 			s.scheduledmacros[scheduledMacroIndex].Steps[i].Status = Scheduled
+			s.scheduledmacros[scheduledMacroIndex].Steps[i].Start = time.Time{}
 			s.scheduledmacros[scheduledMacroIndex].Steps[i].End = time.Time{}
 			s.Unlock()
 		}
