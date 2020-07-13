@@ -13,6 +13,7 @@ func (c *Controller) LoadAPI(r *mux.Router) {
 	r.HandleFunc("/api/atos", c.list).Methods("GET")
 	r.HandleFunc("/api/atos", c.create).Methods("PUT")
 	r.HandleFunc("/api/atos/{id}", c.update).Methods("POST")
+	r.HandleFunc("/api/atos/leak/{id}", c.leak).Methods("POST")
 	r.HandleFunc("/api/atos/{id}", c.delete).Methods("DELETE")
 	r.HandleFunc("/api/atos/{id}/usage", c.getUsage).Methods("GET")
 }
@@ -23,6 +24,19 @@ func (c *Controller) get(w http.ResponseWriter, r *http.Request) {
 	}
 	utils.JSONGetResponse(fn, w, r)
 }
+
+func (c *Controller) leak(w http.ResponseWriter, r *http.Request) {
+
+	fn := func(id string) (interface{}, error) {
+		res := make(map[string]string)
+		res["noted"] = "true"
+		res["id"] = id
+		return res, nil
+	}
+	utils.JSONGetResponse(fn, w, r)
+
+}
+
 func (c Controller) list(w http.ResponseWriter, r *http.Request) {
 	fn := func() (interface{}, error) {
 		return c.List()

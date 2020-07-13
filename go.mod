@@ -31,6 +31,6 @@ require (
 	golang.org/x/image v0.0.0-20200119044424-58c23975cae1 // indirect
 	golang.org/x/mobile v0.0.0-20200329125638-4c31acba0007 // indirect
 	golang.org/x/sys v0.0.0-20200413165638-669c56c373c4 // indirect
-	golang.org/x/tools v0.0.0-20200428021058-7ae4988eb4d9 // indirect
+	golang.org/x/tools v0.0.0-20200708183856-df98bc6d456c // indirect
 	gopkg.in/yaml.v2 v2.2.8
 )

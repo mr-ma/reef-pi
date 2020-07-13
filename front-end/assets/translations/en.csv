@@ -78,6 +78,7 @@ capabilities:log,Log
 capabilities:macro,Macro
 capabilities:macros,Macros
 capabilities:tasks,Tasks
+capabilities:leaks,Leaks
 capabilities:manager,Instances
 capabilities:ph,pH
 capabilities:temperature,Temperature

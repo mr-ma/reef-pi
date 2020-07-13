@@ -10,6 +10,7 @@ import (
 	"github.com/reef-pi/reef-pi/controller/modules/doser"
 	"github.com/reef-pi/reef-pi/controller/modules/equipment"
 	"github.com/reef-pi/reef-pi/controller/modules/flow"
+	"github.com/reef-pi/reef-pi/controller/modules/leak"
 	"github.com/reef-pi/reef-pi/controller/modules/lighting"
 	"github.com/reef-pi/reef-pi/controller/modules/macro"
 	"github.com/reef-pi/reef-pi/controller/modules/ph"
@@ -45,6 +46,14 @@ func (r *ReefPi) loadTimerSubsystem() error {
 	}
 	t := timer.New(r)
 	r.subsystems[timer.Bucket] = t
+	return nil
+}
+func (r *ReefPi) loadLeakSubsystem() error {
+	if !r.settings.Capabilities.Flow {
+		return nil
+	}
+	lk := leak.New(r)
+	r.subsystems[leak.Bucket] = lk
 	return nil
 }
 
@@ -176,6 +185,10 @@ func (r *ReefPi) loadSubsystems() error {
 	if err := r.loadFlowSubsystem(); err != nil {
 		log.Println("ERROR: Failed to load flow subsystem. Error:", err)
 		r.LogError("subsystem-flow", "Failed to load flow subsystem. Error:"+err.Error())
+	}
+	if err := r.loadLeakSubsystem(); err != nil {
+		log.Println("ERROR: Failed to load leak subsystem. Error:", err)
+		r.LogError("subsystem-leak", "Failed to load leak subsystem. Error:"+err.Error())
 	}
 	if err := r.loadDoserSubsystem(); err != nil {
 		log.Println("ERROR: Failed to load doser subsystem. Error:", err)

@@ -47,6 +47,7 @@ export default class Capabilities extends React.Component {
           {this.toLi('ato')}
           {this.toLi('temperature')}
           {this.toLi('flow')}
+          {this.toLi('leak')}
           {this.toLi('camera')}
           {this.toLi('doser')}
           {this.toLi('ph')}

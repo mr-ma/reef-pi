@@ -26,6 +26,7 @@ const (
 	TimerBucket            = "timers"
 	ErrorBucket            = "errors"
 	DriverBucket           = "drivers"
+	LeakBucket             = "leak"
 )
 
 type Store interface {

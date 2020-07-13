@@ -1,5 +1,6 @@
 import React from 'react'
 import Ato from 'ato/main'
+import Leak from 'leak/main'
 import Camera from 'camera/main'
 import Equipment from 'equipment/main'
 import Flow from 'flow/main'
@@ -35,6 +36,7 @@ const caps = {
   doser: { label: i18n.t('capabilities:dosing_pumps'), component: <Doser /> },
   macro: { label: i18n.t('capabilities:macros'), component: <Macro /> },
   task: {label:i18n.t('capabilities:tasks'), component:<Task/>},
+  leak: {label:i18n.t('capabilities:leaks'), component:<Leak/>},
   camera: { label: i18n.t('capabilities:camera'), component: <Camera /> },
   manager: { label: i18n.t('capabilities:manager'), component: <Instances /> },
   configuration: { label: i18n.t('capabilities:configuration'), component: <Configuration /> },
@@ -70,6 +72,11 @@ class mainPanel extends React.Component {
       currentCaps['task']=true
     } else {
       currentCaps['task']=false
+    }
+    if (currentCaps['ato']) {
+      currentCaps['leak']=true
+    } else {
+      currentCaps['leak']=false
     }
     const panels = []
     for (const prop in caps) {

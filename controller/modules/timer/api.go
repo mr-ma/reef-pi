@@ -11,12 +11,12 @@ import (
 )
 
 func (c *Controller) LoadAPI(r *mux.Router) {
+	r.HandleFunc("/api/timers/schedules", c.Schedules).Methods("GET")
 	r.HandleFunc("/api/timers/{id}", c.GetJob).Methods("GET")
 	r.HandleFunc("/api/timers", c.ListJobs).Methods("GET")
 	r.HandleFunc("/api/timers", c.CreateJob).Methods("PUT")
 	r.HandleFunc("/api/timers/{id}", c.UpdateJob).Methods("POST")
 	r.HandleFunc("/api/timers/{id}", c.DeleteJob).Methods("DELETE")
-	r.HandleFunc("/api/schedules", c.Schedules).Methods("GET")
 }
 
 func (c *Controller) GetJob(w http.ResponseWriter, r *http.Request) {

@@ -9,6 +9,7 @@ type Capabilities struct {
 	Lighting      bool `json:"lighting"`
 	Temperature   bool `json:"temperature"`
 	Flow          bool `json:"flow"`
+	Leak          bool `json:"leak"`
 	ATO           bool `json:"ato"`
 	Camera        bool `json:"camera"`
 	Doser         bool `json:"doser"`
@@ -27,6 +28,7 @@ var DefaultCapabilities = Capabilities{
 	Temperature:   true,
 	Flow:          true,
 	ATO:           true,
+	Leak:          true,
 	Configuration: true,
 	Macro:         true,
 }

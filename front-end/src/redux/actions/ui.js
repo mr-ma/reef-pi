@@ -1,6 +1,7 @@
 import { reduxGet } from 'utils/ajax'
 import $ from 'jquery'
 import { fetchATOs } from './ato'
+import { fetchLeaks } from './leak'
 import { fetchInfo } from './info'
 import { fetchDosingPumps } from './doser'
 import { fetchDrivers } from './drivers'
@@ -43,6 +44,9 @@ export const fetchControllerData = (dispatch, capabilities) => {
         break
       case 'flow':
         dispatch(fetchFCs())
+        break
+      case 'leak':
+        dispatch(fetchLeaks())
         break
       case 'lighting':
         dispatch(fetchLights())

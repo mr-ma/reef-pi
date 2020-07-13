@@ -46,6 +46,10 @@ export const rootReducer = (state, action) => {
       return { ...state, atos: action.payload }
     case 'ATO_LOADED':
       return { ...state, config: action.payload }
+    case 'LEAKS_LOADED':
+      return {...state, leaks: action.payload}
+    case 'LEAK_LOADED':
+      return {...state, config: action.payload}
     case 'ATO_USAGE_LOADED':
       atoUsage[action.payload.id] = action.payload.data
       return { ...state, ato_usage: atoUsage }
@@ -137,6 +141,7 @@ export const rootReducer = (state, action) => {
     case 'DOSING_PUMP_DELETED':
     case 'DOSING_PUMP_CALIBRATED':
     case 'ATO_UPDATED':
+    case 'LEAK_UPDATED':
     case 'ATO_DELETED':
     case 'MACRO_UPDATED':
     case 'MACRO_DELETED':
