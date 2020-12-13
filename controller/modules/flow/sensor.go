@@ -27,7 +27,7 @@ func (fc *FC) Listen(devMode bool, pin *embd.DigitalPin, pulse chan interface{},
 		log.Fatalln("Flow controller. Listen. Pulse is null")
 	}
 	err := (*pin).Watch(embd.EdgeFalling, func(pin embd.DigitalPin) {
-		log.Println("Flow controller. flowsensor:", fc.ID, " ", fc.Name, " pulse observed")
+		// log.Println("Flow controller. flowsensor:", fc.ID, " ", fc.Name, " pulse observed")
 		pulse <- 1
 	})
 	if err != nil {
@@ -41,8 +41,8 @@ func (fc *FC) Listen(devMode bool, pin *embd.DigitalPin, pulse chan interface{},
 	for {
 		select {
 		case <-pulse:
-			log.Println("Flow controller. Sensing pulse in sensor.go ",
-				fc.PulseCount)
+			// log.Println("Flow controller. Sensing pulse in sensor.go ",
+			// fc.PulseCount)
 			fc.Lock()
 			fc.PulseCount++
 			fc.Unlock()

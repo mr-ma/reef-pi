@@ -1,49 +1,86 @@
 package doser
 
 import (
+	"fmt"
 	"log"
 	"time"
 
 	"github.com/reef-pi/reef-pi/controller/connectors"
+	"github.com/reef-pi/reef-pi/controller/device_manager"
 	"github.com/reef-pi/reef-pi/controller/telemetry"
+	"gobot.io/x/gobot"
+	"gobot.io/x/gobot/drivers/gpio"
+	"gobot.io/x/gobot/platforms/raspi"
 )
 
 type Runner struct {
-	pump     *Pump
-	jacks    *connectors.Jacks
-	statsMgr telemetry.StatsManager
+	deviceManager *device_manager.DeviceManager
+	devMode       bool
+	pump          *Pump
+	jacks         *connectors.Jacks
+	statsMgr      telemetry.StatsManager
 }
 
-func (r *Runner) Dose(speed float64, duration float64) error {
-	log.Println("In the DOSE function (speed, duration)", speed, duration)
-	v := make(map[int]float64)
-	v[r.pump.Pin] = speed
-	if err := r.jacks.Control(r.pump.Jack, v); err != nil {
-		log.Fatalln(err.Error())
-		//return err
+func (runner *Runner) DoseStepper(speed float64, duration float64) {
+
+	//no need to dose in the devMode
+	if runner.devMode {
+		return
 	}
-	/*frequency := 100
-	//motor: 2  direction: 1  frequency: 100.0  cycle: 50.0  duration: 10
-	command := exec.Command("python", "step.py", "2", "1", strconv.Itoa(frequency),
-		strconv.FormatFloat(speed, 'E', 0, 64),
-		strconv.FormatFloat(duration, 'E', 0, 64))
-	log.Println("Tring to run:", command.String())
-	command.Path = "/home/pi"
-	err := command.Run()
-	if err != nil {
-		log.Println("Failed to execute python")
-		log.Println(err.Error())
-		return err
+	// Inputs to the DoseStepper stepDelay, seq => arrays of steps,
+	// and stepDir; 1 or 2 for clockwise, -1 or -2 for counter-clockwise
+	// Check stepDir and seq with manufacturer documentation
+	// Start here: https://github.com/hybridgroup/gobot/blob/a8f33b2fc012951104857c485e85b35bf5c4cb9d/drivers/gpio/stepper_driver.go
+	r := raspi.NewAdaptor()
+	log.Printf("Stepper pins: %s, %s, %s, %s\n",
+		runner.pump.In1Pin,
+		runner.pump.In2Pin,
+		runner.pump.In3Pin,
+		runner.pump.In4Pin)
+	stepper := gpio.NewStepperDriver(r, [4]string{runner.pump.In1Pin, runner.pump.In2Pin,
+		runner.pump.In3Pin,
+		runner.pump.In4Pin},
+		gpio.StepperModes.DualPhaseStepping, runner.pump.StepsPerRevolution)
+
+	work := func() {
+		//set spped
+		stepper.SetSpeed(uint(speed))
+
+		//Move forward one revolution
+		if err := stepper.Move(int(duration)); err != nil {
+			fmt.Println(err)
+		}
 	}
 
-	log.Println("Executed python")
-	*/
-	select {
-	case <-time.After(time.Duration(duration * float64(time.Second))):
-		v[r.pump.Pin] = 0
+	robot := gobot.NewRobot("stepperBot",
+		[]gobot.Connection{r},
+		[]gobot.Device{stepper},
+		work,
+	)
+
+	robot.Start()
+}
+func (r *Runner) Dose(speed float64, duration float64) error {
+	log.Println("In the DOSE function (speed, duration)", speed, duration)
+
+	if r.pump.IsStepper {
+		log.Printf("Stepper mode dosing speed:%v, duration:%v\n", speed, duration)
+		//logic for stepper motor dosing
+		r.DoseStepper(speed, duration)
+	} else {
+		v := make(map[int]float64)
+		v[r.pump.Pin] = speed
 		if err := r.jacks.Control(r.pump.Jack, v); err != nil {
 			log.Fatalln(err.Error())
 			return err
+		}
+		select {
+		case <-time.After(time.Duration(duration * float64(time.Second))):
+			v[r.pump.Pin] = 0
+			if err := r.jacks.Control(r.pump.Jack, v); err != nil {
+				log.Fatalln(err.Error())
+				return err
+			}
 		}
 	}
 	return nil

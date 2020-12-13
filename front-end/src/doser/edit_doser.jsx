@@ -14,6 +14,7 @@ const EditDoser = ({
   touched,
   doser,
   jacks,
+  outlets,
   submitForm,
   isValid,
   onBlur,
@@ -44,7 +45,15 @@ const EditDoser = ({
       )
     })
   }
-
+  const inPinOptions = () => {
+    return outlets.map(item => {
+      return (
+        <option key={item.id} value={item.id}>
+          {item.name}
+        </option>
+      )
+    })
+  }
   const pinOptions = () => {
     const selectedJack = jacks.find(j => { return j.id === values.jack })
     if (!selectedJack) { return [] }
@@ -117,6 +126,113 @@ const EditDoser = ({
           </div>
         </div>
 
+        <div className='col-12 col-sm-6 col-md-3'>
+          <div className='form-group'>
+            <label htmlFor='is_stepper'>Is Stepper</label>
+            <Field
+              name='is_stepper'
+              component={BooleanSelect}
+              disabled={readOnly}
+              className={classNames('custom-select', {
+                'is-invalid': ShowError('is_stepper', touched, errors)
+              })}
+            >
+              <option value='true'>Yes</option>
+              <option value='false'>No</option>
+            </Field>
+            <ErrorFor errors={errors} touched={touched} name='is_stepper' />
+          </div>
+        </div>
+
+        <div className='col-12 col-sm-6 col-md-3'>
+          <div className='form-group'>
+            <label htmlFor='in1_pin'>In1 Pin</label>
+            <Field
+              name='in1_pin'
+              // component='select'
+              disabled={readOnly}
+              className={classNames('custom-select', {
+                'is-invalid': ShowError('in1_pin', touched, errors)
+              })}
+            >
+              {/* <option value='' className='d-none'>-- Select --</option>
+              {inPinOptions()} */}
+            </Field>
+            <ErrorFor errors={errors} touched={touched} name='in1_pin' />
+          </div>
+        </div>
+
+        <div className='col-12 col-sm-6 col-md-3'>
+          <div className='form-group'>
+            <label htmlFor='in2_pin'>In2 Pin</label>
+            <Field
+              name='in2_pin'
+              // component='select'
+              disabled={readOnly}
+              className={classNames('custom-select', {
+                'is-invalid': ShowError('in2_pin', touched, errors)
+              })}
+            >
+              {/* <option value='' className='d-none'>-- Select --</option>
+              {inPinOptions()} */}
+            </Field>
+            <ErrorFor errors={errors} touched={touched} name='in2_pin' />
+          </div>
+        </div>
+
+        <div className='col-12 col-sm-6 col-md-3'>
+          <div className='form-group'>
+            <label htmlFor='in3_pin'>In3 Pin</label>
+            <Field
+              name='in3_pin'
+              // component='select'
+              disabled={readOnly}
+              className={classNames('custom-select', {
+                'is-invalid': ShowError('in3_pin', touched, errors)
+              })}
+            >
+              {/* <option value='' className='d-none'>-- Select --</option>
+              {inPinOptions()} */}
+            </Field>
+            <ErrorFor errors={errors} touched={touched} name='in3_pin' />
+          </div>
+        </div>
+
+        <div className='col-12 col-sm-6 col-md-3'>
+          <div className='form-group'>
+            <label htmlFor='in4_pin'>In4 Pin</label>
+            <Field
+              name='in4_pin'
+              // component='select'
+              disabled={readOnly}
+              className={classNames('custom-select', {
+                'is-invalid': ShowError('in4_pin', touched, errors)
+              })}
+            >
+              {/* <option value='' className='d-none'>-- Select --</option>
+              {inPinOptions()} */}
+            </Field>
+            <ErrorFor errors={errors} touched={touched} name='in4_pin' />
+          </div>
+        </div>
+        <div className='col-12 col-sm-6 col-md-3'>
+          <div className='form-group'>
+            <label htmlFor='steps_per_revolution'>Steps per Revolution</label>
+            <Field
+              name='steps_per_revolution'
+              // component='select'
+              disabled={readOnly}
+              className={classNames('custom-select', {
+                'is-invalid': ShowError('steps_per_revolution', touched, errors)
+              })}
+            >
+              {/* <option value='' className='d-none'>-- Select --</option>
+              {inPinOptions()} */}
+            </Field>
+            <ErrorFor errors={errors} touched={touched} name='steps_per_revolution' />
+          </div>
+        </div>
+        
         <div className='col-12 col-sm-6 col-md-3'>
           <div className='form-group'>
             <label htmlFor='enable'>Doser Status</label>

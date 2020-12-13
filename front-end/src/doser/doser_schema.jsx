@@ -7,8 +7,12 @@ const DoserSchema = Yup.object().shape({
     .required('Jack is required'),
   pin: Yup.string()
     .required('Pin is required'),
+  is_stepper: Yup.bool()
+    .required('Is Stepper Motor? is required'),
   enable: Yup.bool()
     .required('Doser Status is required'),
+  steps_per_revolution: Yup.number()
+    .optional('Steps per revolution must be numeric'),
   duration: Yup.number()
     .required('Duration is required'),
   speed: Yup.number()

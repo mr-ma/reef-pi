@@ -12,11 +12,17 @@ import (
 )
 
 type Pump struct {
-	ID       string         `json:"id"`
-	Name     string         `json:"name"`
-	Jack     string         `json:"jack"`
-	Pin      int            `json:"pin"`
-	Regiment DosingRegiment `json:"regiment"`
+	ID                 string         `json:"id"`
+	Name               string         `json:"name"`
+	Jack               string         `json:"jack"`
+	Pin                int            `json:"pin"`
+	IsStepper          bool           `json:"is_stepper"`
+	In1Pin             string         `json:"in1_pin"`
+	In2Pin             string         `json:"in2_pin"`
+	In3Pin             string         `json:"in3_pin"`
+	In4Pin             string         `json:"in4_pin"`
+	StepsPerRevolution uint           `json:"steps_per_revolution"`
+	Regiment           DosingRegiment `json:"regiment"`
 }
 
 func (c *Controller) Get(id string) (Pump, error) {
@@ -60,9 +66,12 @@ func (c *Controller) Calibrate(id string, cal CalibrationDetails) error {
 	if err != nil {
 		return err
 	}
+
 	r := &Runner{
-		pump:  &p,
-		jacks: c.jacks,
+		deviceManager: c.c.DM(),
+		devMode:       c.DevMode,
+		pump:          &p,
+		jacks:         c.jacks,
 	}
 	log.Println("doser subsystem: calibration run for:", p.Name)
 	go r.Dose(cal.Speed, cal.Duration)

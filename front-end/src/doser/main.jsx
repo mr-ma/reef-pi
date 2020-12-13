@@ -61,6 +61,7 @@ class doser extends React.Component {
             <DoserForm
               onSubmit={this.handleUpdateDoser}
               jacks={this.props.jacks}
+              outlets={this.props.outlets}
               doser={doser}
             />
           </Collapsible>
@@ -74,6 +75,12 @@ class doser extends React.Component {
       name: values.name,
       jack: values.jack,
       pin: parseInt(values.pin),
+      is_stepper: values.is_stepper,
+      in1_pin: values.in1_pin,
+      in2_pin: values.in2_pin,
+      in3_pin: values.in3_pin,
+      in4_pin: values.in4_pin,
+      steps_per_revolution: parseInt(values.steps_per_revolution),
       regiment: {
         enable: values.enable,
         duration: parseFloat(values.duration),
@@ -123,7 +130,7 @@ class doser extends React.Component {
   render () {
     let newDoser = null
     if (this.state.addDoser) {
-      newDoser = <DoserForm onSubmit={this.handleCreateDoser} jacks={this.props.jacks} />
+      newDoser = <DoserForm onSubmit={this.handleCreateDoser} jacks={this.props.jacks} outlets={this.props.outlets}/>
     }
 
     return (
@@ -153,7 +160,8 @@ class doser extends React.Component {
 const mapStateToProps = state => {
   return {
     dosers: state.dosers,
-    jacks: state.jacks
+    jacks: state.jacks,
+    outlets: state.outlets,
   }
 }
 

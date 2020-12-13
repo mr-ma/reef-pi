@@ -34,7 +34,7 @@ export const Calibrate = ({
             <ErrorFor errors={errors} touched={touched} name='speed' />
           </div>
         </div>
-        <label htmlFor='duration' className='col-2 col-form-label'>Duration</label>
+        <label htmlFor='duration' className='col-2 col-form-label'>D/S</label>
         <div className='col-3'>
           <div className='form-group'>
             <Field
@@ -67,7 +67,7 @@ const CalibrateSchema = Yup.object().shape({
   speed: Yup.number()
     .required()
     .min(0)
-    .max(100)
+    // .max(100)
 })
 
 const CalibrateForm = withFormik({
